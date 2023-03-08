@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -84,7 +86,7 @@ class _PriceScreenState extends State<PriceScreen> {
             height: 150.0,
             alignment: Alignment.center,
             color: Theme.of(context).primaryColor,
-            child: iOSCupertinoPicker(),
+            child: Platform.isIOS ? iOSCupertinoPicker() : androidDropdownButton(),
           ),
         ],
       ),
