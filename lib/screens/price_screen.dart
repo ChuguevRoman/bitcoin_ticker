@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../coin_data.dart';
 
@@ -10,7 +11,7 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-  String? selectedValue = 'USD';
+  String? selectedCurrency = 'AUD';
 
   DropdownButton<String> androidDropdownButton() {
     List<DropdownMenuItem<String>> itemList = [];
@@ -24,12 +25,27 @@ class _PriceScreenState extends State<PriceScreen> {
     }
     return DropdownButton(
         items: itemList,
-        value: selectedValue,
+        value: selectedCurrency,
         onChanged: (value) {
           setState(() {
-            selectedValue = value;
+            selectedCurrency = value;
           });
         });
+  }
+
+  CupertinoPicker iOSCupertinoPicker() {
+    List<Text> itemList = [];
+    for (String currency in currenciesList) {
+      itemList.add(Text(currency));
+    }
+    return CupertinoPicker(
+        itemExtent: 32.0,
+        onSelectedItemChanged: (selectedIndex) {
+          setState(() {
+            selectedCurrency = currenciesList[selectedIndex];
+          });
+        },
+        children: itemList);
   }
 
   @override
@@ -52,9 +68,10 @@ class _PriceScreenState extends State<PriceScreen> {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ? $selectedValue',
+                  '1 BTC = ? $selectedCurrency',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 20,
@@ -67,7 +84,7 @@ class _PriceScreenState extends State<PriceScreen> {
             height: 150.0,
             alignment: Alignment.center,
             color: Theme.of(context).primaryColor,
-            child: androidDropdownButton(),
+            child: iOSCupertinoPicker(),
           ),
         ],
       ),
