@@ -2,15 +2,11 @@
 
 A new Flutter project.
 
-## Getting Started
+The application allows the user to select a currency from the list and view the exchange rate 
+for three cryptocurrencies: Bitcoin, Ethereum, Litecoin. 
+The currency selection design is different for Android and IOS. Data comes from coinapi.io
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Libraries used:
+http: ^0.13.5
+dart:convert
+dart:io
