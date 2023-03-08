@@ -13,7 +13,28 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
+
+@override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   String? selectedCurrency = 'AUD';
+  String coinValue = '?';
+
+
+
+  void getData() async {
+    try {
+      var data = await CoinData().getCoinData(selectedCurrency);
+      setState(() {
+        coinValue = data;
+      });
+    } catch (e) {
+      throw 'Problem with the get request\nError $e';
+    }
+  }
 
   DropdownButton<String> androidDropdownButton() {
     List<DropdownMenuItem<String>> itemList = [];
@@ -31,6 +52,7 @@ class _PriceScreenState extends State<PriceScreen> {
         onChanged: (value) {
           setState(() {
             selectedCurrency = value;
+            getData();
           });
         });
   }
@@ -73,7 +95,7 @@ class _PriceScreenState extends State<PriceScreen> {
                 padding: const EdgeInsets.symmetric(
                     vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ? $selectedCurrency',
+                  '1 BTC = $coinValue $selectedCurrency',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 20,
@@ -86,7 +108,8 @@ class _PriceScreenState extends State<PriceScreen> {
             height: 150.0,
             alignment: Alignment.center,
             color: Theme.of(context).primaryColor,
-            child: Platform.isIOS ? iOSCupertinoPicker() : androidDropdownButton(),
+            child:
+                Platform.isIOS ? iOSCupertinoPicker() : androidDropdownButton(),
           ),
         ],
       ),
