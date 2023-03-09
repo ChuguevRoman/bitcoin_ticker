@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../coin_data.dart';
+import '../widgets/my_card.dart';
 
 class PriceScreen extends StatefulWidget {
   const PriceScreen({Key? key}) : super(key: key);
@@ -13,17 +14,14 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-
-@override
+  @override
   void initState() {
     super.initState();
     getData();
   }
 
-  String? selectedCurrency = 'AUD';
-  String coinValue = '?';
-
-
+  String selectedCurrency = 'AUD';
+  Map<String, String> coinValue = {};
 
   void getData() async {
     try {
@@ -34,6 +32,20 @@ class _PriceScreenState extends State<PriceScreen> {
     } catch (e) {
       throw 'Problem with the get request\nError $e';
     }
+  }
+
+  Column makeCard() {
+    List<MyCard> cardList = [];
+    for (String crypto in cryptoList) {
+      cardList.add(MyCard(
+          crypto: crypto,
+          coinValue: coinValue[crypto],
+          selectedCurrency: selectedCurrency));
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: cardList,
+    );
   }
 
   DropdownButton<String> androidDropdownButton() {
@@ -51,7 +63,7 @@ class _PriceScreenState extends State<PriceScreen> {
         value: selectedCurrency,
         onChanged: (value) {
           setState(() {
-            selectedCurrency = value;
+            selectedCurrency = value!;
             getData();
           });
         });
@@ -83,9 +95,9 @@ class _PriceScreenState extends State<PriceScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(18.0),
-            child: null,
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: makeCard(),
           ),
           Container(
             height: 150.0,

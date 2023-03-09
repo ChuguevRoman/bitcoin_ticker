@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class MyCard extends StatelessWidget {
   final String crypto;
-  final String coinValue;
+  final String? coinValue;
   final String selectedCurrency;
 
   const MyCard(
