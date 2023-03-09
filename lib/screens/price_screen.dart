@@ -22,10 +22,13 @@ class _PriceScreenState extends State<PriceScreen> {
 
   String selectedCurrency = 'AUD';
   Map<String, String> coinValue = {};
+  bool isWaiting = false;
 
   void getData() async {
+    isWaiting = true;
     try {
       var data = await CoinData().getCoinData(selectedCurrency);
+      isWaiting = false;
       setState(() {
         coinValue = data;
       });
@@ -39,7 +42,7 @@ class _PriceScreenState extends State<PriceScreen> {
     for (String crypto in cryptoList) {
       cardList.add(MyCard(
           crypto: crypto,
-          coinValue: coinValue[crypto],
+          coinValue: isWaiting ? '?' : coinValue[crypto],
           selectedCurrency: selectedCurrency));
     }
     return Column(
